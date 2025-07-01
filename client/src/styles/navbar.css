@@ -1,0 +1,145 @@
+header {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  gap: 2rem;
+  align-items: center;
+  /* padding: 10px 10%; */
+  /* height: 72px; */
+  position: sticky;
+  top: 0%;
+  left: 0%;
+  background-color: var(--light-blue);
+  z-index: 2;
+  box-shadow: 0 0 20px 0 rgba(144, 174, 205, 0.339);
+  transition: all 0.2 linear;
+}
+
+nav {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  padding: 1rem 2rem;
+  align-items: center;
+}
+
+.nav-logo a,
+.nav-links a {
+  color: var(--bold-text-color);
+}
+
+.nav-links {
+  display: flex;
+  gap: 2rem;
+}
+
+.nav-links .btn {
+  color: var(--white);
+  font-size: 0.8rem;
+  padding: 0.4rem 0.8rem;
+}
+
+.menu-icons {
+  display: none;
+  z-index: 100;
+  font-size: 1.5rem;
+  position: relative;
+}
+
+.menu-open,
+.menu-close {
+  position: absolute;
+  color: var(--black);
+  cursor: pointer;
+}
+
+@media (max-width: 1300px) {
+  nav {
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+}
+
+@media (max-width: 950px) {
+  .nav-links {
+    position: fixed;
+    top: 0%;
+    left: 0%;
+    width: 100vw;
+    height: 100vh;
+    background-color: var(--light-blue);
+    flex-direction: column;
+    transform: translateX(100%);
+    justify-content: center;
+    align-items: center;
+    visibility: hidden;
+    z-index: 20;
+    gap: 3rem;
+    transition: all 0.3s linear;
+  }
+  .nav-active .nav-links {
+    transform: translateX(0%);
+    visibility: visible;
+  }
+  .menu-icons {
+    display: block;
+    position: absolute;
+    top: 33%;
+    right: 7%;
+  }
+}
+
+/* Notification badge styles */
+.notification-link {
+  position: relative;
+}
+
+.notification-badge {
+  position: absolute;
+  top: -8px;
+  right: -12px;
+  background: #ff4757;
+  color: white;
+  border-radius: 50%;
+  padding: 2px 6px;
+  font-size: 0.75rem;
+  font-weight: bold;
+  min-width: 18px;
+  height: 18px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 2px 4px rgba(255, 71, 87, 0.3);
+  animation: pulse 2s infinite;
+  z-index: 10;
+}
+
+@keyframes pulse {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.1);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+/* Mobile responsiveness for notification badge */
+@media (max-width: 768px) {
+  .notification-badge {
+    top: -6px;
+    right: -10px;
+    font-size: 0.7rem;
+    min-width: 16px;
+    height: 16px;
+    padding: 1px 4px;
+  }
+}
+
+/* Ensure the notification link has proper positioning context */
+.nav-links .notification-link a {
+  position: relative;
+  display: inline-block;
+}

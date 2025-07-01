@@ -1,0 +1,354 @@
+@import url(app.css);
+
+.notif-section {
+  min-height: 70vh;
+  justify-content: flex-start;
+  padding: 2rem 0;
+}
+
+.notifications-wrapper {
+  width: 100%;
+  overflow-x: auto;
+  background: white;
+  border-radius: 15px;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+  margin-bottom: 2rem;
+}
+
+/* Table Styling */
+.notifications-wrapper table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 0;
+  font-size: 0.9rem;
+  min-width: 800px; /* Ensures horizontal scroll on small screens */
+  display: table; /* Override block display */
+  white-space: normal; /* Allow text wrapping */
+}
+
+.notifications-wrapper table thead tr {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  text-align: left;
+}
+
+.notifications-wrapper table th,
+.notifications-wrapper table td {
+  padding: 1rem 1.5rem;
+  text-align: left;
+  border-bottom: 1px solid #e2e8f0;
+  vertical-align: top;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+  hyphens: auto;
+}
+
+.notifications-wrapper table th {
+  font-weight: 600;
+  font-size: 1rem;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  border-bottom: none;
+}
+
+.notifications-wrapper table tbody tr {
+  background: white;
+  transition: all 0.3s ease;
+}
+
+.notifications-wrapper table tbody tr:nth-child(even) {
+  background: #f8fafc;
+}
+
+.notifications-wrapper table tbody tr:hover {
+  background: #e3f2fd;
+  transform: translateY(-1px);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.notifications-wrapper table td {
+  color: #4a5568;
+  line-height: 1.6;
+}
+
+/* Column specific styling */
+.notifications-wrapper table th:nth-child(1),
+.notifications-wrapper table td:nth-child(1) {
+  width: 80px;
+  text-align: center;
+  min-width: 60px;
+}
+
+.notifications-wrapper table th:nth-child(2),
+.notifications-wrapper table td:nth-child(2) {
+  width: 50%;
+  min-width: 300px;
+  max-width: 400px;
+}
+
+.notifications-wrapper table th:nth-child(3),
+.notifications-wrapper table td:nth-child(3) {
+  width: 15%;
+  min-width: 120px;
+  text-align: center;
+}
+
+.notifications-wrapper table th:nth-child(4),
+.notifications-wrapper table td:nth-child(4) {
+  width: 15%;
+  min-width: 100px;
+  text-align: center;
+}
+
+/* Serial number styling */
+.notifications-wrapper table td:nth-child(1) {
+  font-weight: 600;
+  color: #667eea;
+  background: rgba(102, 126, 234, 0.1);
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto;
+}
+
+/* Content cell styling */
+.notifications-wrapper table td:nth-child(2) {
+  font-weight: 500;
+  color: #2d3748;
+  line-height: 1.7;
+  white-space: pre-wrap; /* Preserve line breaks */
+}
+
+/* Date and Time cell styling */
+.notifications-wrapper table td:nth-child(3),
+.notifications-wrapper table td:nth-child(4) {
+  font-weight: 500;
+  color: #64748b;
+  font-family: 'Courier New', monospace;
+}
+
+/* Pagination */
+.pagination {
+  display: flex;
+  gap: 0.5rem;
+  justify-content: center;
+  align-items: center;
+  margin-top: 2rem;
+  padding: 1rem 0;
+}
+
+.pagination-btn {
+  padding: 0.75rem 1rem;
+  background: white;
+  border: 2px solid #e2e8f0;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 500;
+  color: #4a5568;
+  transition: all 0.3s ease;
+  min-width: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.pagination-btn:hover {
+  background: #667eea;
+  color: white;
+  border-color: #667eea;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
+}
+
+.pagination-btn.active {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  border-color: #667eea;
+  box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+}
+
+.pagination-btn:disabled {
+  background: #f1f5f9;
+  color: #cbd5e1;
+  border-color: #e2e8f0;
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: none;
+}
+
+/* Responsive Design */
+@media (max-width: 1024px) {
+  .notifications-wrapper table {
+    min-width: 700px;
+  }
+  
+  .notifications-wrapper table th,
+  .notifications-wrapper table td {
+    padding: 0.875rem 1.25rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .notif-section {
+    padding: 1rem 0;
+  }
+  
+  .notifications-wrapper {
+    margin: 0 1rem;
+    border-radius: 10px;
+  }
+  
+  .notifications-wrapper table {
+    min-width: 600px;
+    font-size: 0.85rem;
+  }
+  
+  .notifications-wrapper table th,
+  .notifications-wrapper table td {
+    padding: 0.75rem 1rem;
+  }
+  
+  .notifications-wrapper table th:nth-child(2),
+  .notifications-wrapper table td:nth-child(2) {
+    min-width: 250px;
+    max-width: 300px;
+  }
+  
+  .pagination {
+    flex-wrap: wrap;
+    gap: 0.25rem;
+  }
+  
+  .pagination-btn {
+    padding: 0.5rem 0.75rem;
+    font-size: 0.875rem;
+    min-width: 36px;
+  }
+}
+
+@media (max-width: 480px) {
+  .notifications-wrapper {
+    margin: 0 0.5rem;
+  }
+  
+  .notifications-wrapper table {
+    min-width: 500px;
+    font-size: 0.8rem;
+  }
+  
+  .notifications-wrapper table th,
+  .notifications-wrapper table td {
+    padding: 0.6rem 0.8rem;
+  }
+  
+  .notifications-wrapper table th:nth-child(2),
+  .notifications-wrapper table td:nth-child(2) {
+    min-width: 200px;
+    max-width: 250px;
+  }
+  
+  .pagination-btn {
+    padding: 0.4rem 0.6rem;
+    font-size: 0.8rem;
+    min-width: 32px;
+  }
+}
+
+/* Empty state */
+.empty-state {
+  text-align: center;
+  padding: 4rem 2rem;
+  color: #64748b;
+}
+
+.empty-state h3 {
+  font-size: 1.5rem;
+  margin-bottom: 1rem;
+  color: #4a5568;
+}
+
+.empty-state p {
+  font-size: 1rem;
+  opacity: 0.8;
+}
+
+/* Loading state */
+.loading-state {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 400px;
+}
+
+/* Accessibility improvements */
+.notifications-wrapper table th {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+}
+
+.notifications-wrapper:focus-within {
+  outline: 2px solid #667eea;
+  outline-offset: 2px;
+}
+
+/* Print styles */
+@media print {
+  .pagination {
+    display: none;
+  }
+  
+  .notifications-wrapper table {
+    min-width: 100%;
+  }
+  
+  .notifications-wrapper table tbody tr:hover {
+    background: transparent;
+    transform: none;
+    box-shadow: none;
+  }
+}
+
+/* High contrast mode support */
+@media (prefers-contrast: high) {
+  .notifications-wrapper table tbody tr:hover {
+    background: #000;
+    color: #fff;
+  }
+  
+  .pagination-btn:hover {
+    background: #000;
+    color: #fff;
+    border-color: #000;
+  }
+}
+
+/* Reduced motion support */
+@media (prefers-reduced-motion: reduce) {
+  .notifications-wrapper table tbody tr,
+  .pagination-btn {
+    transition: none;
+  }
+  
+  .notifications-wrapper table tbody tr:hover {
+    transform: none;
+  }
+  
+  .pagination-btn:hover {
+    transform: none;
+  }
+}
+
+/* Read/Unread notification styling */
+.notifications-wrapper table tbody tr.read {
+  opacity: 0.7;
+  background-color: #f8f9fa;
+}
+
+.notifications-wrapper table tbody tr.unread {
+  font-weight: 600;
+  background-color: #fff;
+}

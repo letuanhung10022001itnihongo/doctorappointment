@@ -1,0 +1,33 @@
+.add-specification-container {
+  margin: 20px 0;
+  display: flex;
+  justify-content: flex-start;
+}
+
+.add-specification-btn {
+  background-color: #28a745;
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 500;
+  transition: background-color 0.2s, transform 0.1s;
+}
+
+.add-specification-btn:hover {
+  background-color: #218838;
+  transform: translateY(-1px);
+}
+
+@media (max-width: 768px) {
+  .add-specification-container {
+    justify-content: center;
+  }
+  
+  .add-specification-btn {
+    width: 100%;
+    max-width: 200px;
+  }
+}

@@ -1,0 +1,200 @@
+@import url(app.css);
+
+.contact-container {
+  flex-direction: column;
+  gap: 2rem;
+  width: 40%;
+}
+
+.apply-doctor {
+  height: 90vh;
+}
+
+@media (max-width: 1000px) {
+  .contact-container {
+    width: 50%;
+  }
+}
+
+@media (max-width: 600px) {
+  .contact-container {
+    width: 60%;
+  }
+}
+
+@media (max-width: 420px) {
+  .contact-container {
+    width: 70%;
+  }
+}
+
+/* Specialization Dropdown Styles */
+.selected-specializations {
+  min-height: 40px;
+  padding: 8px 12px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  background-color: #f9f9f9;
+  margin-bottom: 10px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  align-items: center;
+}
+
+.placeholder-text {
+  color: #999;
+  font-style: italic;
+}
+
+.specialization-tag {
+  display: inline-flex;
+  align-items: center;
+  background-color: #007bff;
+  color: white;
+  padding: 4px 8px;
+  border-radius: 16px;
+  font-size: 14px;
+  gap: 6px;
+}
+
+.remove-spec-btn {
+  background: none;
+  border: none;
+  color: white;
+  font-size: 16px;
+  font-weight: bold;
+  cursor: pointer;
+  padding: 0;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background-color 0.2s;
+}
+
+.remove-spec-btn:hover {
+  background-color: rgba(255, 255, 255, 0.2);
+}
+
+.custom-dropdown {
+  position: relative;
+  width: 100%;
+  z-index: 10;
+}
+
+.dropdown-button {
+  width: 100%;
+  padding: 10px 12px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  background-color: white;
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 14px;
+  transition: border-color 0.2s;
+  outline: none;
+}
+
+.dropdown-button:hover {
+  border-color: #007bff;
+}
+
+.dropdown-button:focus {
+  border-color: #007bff;
+  box-shadow: 0 0 0 2px rgba(0, 123, 255, 0.25);
+}
+
+.dropdown-arrow {
+  transition: transform 0.2s ease;
+  font-size: 12px;
+  color: #666;
+}
+
+.dropdown-arrow.open {
+  transform: rotate(180deg);
+}
+
+.dropdown-menu {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  background: white;
+  border: 1px solid #ddd;
+  border-top: none;
+  border-radius: 0 0 4px 4px;
+  max-height: 200px;
+  overflow-y: auto;
+  z-index: 1000;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  /* Ensure the dropdown is visible */
+  display: block !important;
+  opacity: 1 !important;
+  visibility: visible !important;
+}
+
+.dropdown-item {
+  width: 100%;
+  padding: 10px 12px;
+  border: none;
+  background: white;
+  text-align: left;
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 14px;
+  color: #333;
+  transition: background-color 0.2s;
+  /* Ensure items are visible */
+  opacity: 1 !important;
+  visibility: visible !important;
+}
+
+.dropdown-item:hover:not(:disabled) {
+  background-color: #f8f9fa;
+}
+
+.dropdown-item:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  color: #999;
+}
+
+.dropdown-item.selected {
+  background-color: #e3f2fd;
+  color: #1976d2;
+}
+
+.checkmark {
+  color: #28a745;
+  font-weight: bold;
+  font-size: 14px;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .selected-specializations {
+    padding: 6px 8px;
+  }
+  
+  .specialization-tag {
+    font-size: 12px;
+    padding: 3px 6px;
+  }
+  
+  .dropdown-button {
+    padding: 8px 10px;
+    font-size: 13px;
+  }
+  
+  .dropdown-item {
+    padding: 8px 10px;
+    font-size: 13px;
+  }
+}
