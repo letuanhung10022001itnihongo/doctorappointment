@@ -192,135 +192,171 @@ function Profile() {
       {loading ? (
         <Loading />
       ) : (
-        <section className="register-section flex-center">
-          <div className="profile-container flex-center">
-            <h2 className="form-heading">Thông tin cá nhân</h2>
-            
-            {/* Profile Picture */}
-            <img
-              src={file}
-              alt="Profile"
-              className="profile-pic"
-            />
-            
-            {/* Profile Form */}
-            <form
-              onSubmit={handleFormSubmit}
-              className="register-form"
-            >
-              {/* Name Fields */}
-              <div className="form-same-row">
-                <input
-                  type="text"
-                  name="firstname"
-                  className="form-input"
-                  placeholder="Tên"
-                  value={formDetails.firstname}
-                  onChange={handleInputChange}
-                  aria-label="First name"
-                />
-                <input
-                  type="text"
-                  name="lastname"
-                  className="form-input"
-                  placeholder="Họ"
-                  value={formDetails.lastname}
-                  onChange={handleInputChange}
-                  aria-label="Last name"
-                />
+        <div className="profile-page">
+          <div className="profile-container-wrapper">
+            <div className="profile-container">
+              {/* Profile Header */}
+              <div className="profile-header">
+                <div className="profile-pic-container">
+                  <img
+                    src={file || "https://icon-library.com/images/anonymous-avatar-icon/anonymous-avatar-icon-25.jpg"}
+                    alt="Profile"
+                    className="profile-pic"
+                  />
+                </div>
+                <div className="profile-info">
+                  <h1 className="profile-title">Thông tin cá nhân</h1>
+                  <p className="profile-subtitle">Cập nhật thông tin của bạn</p>
+                </div>
               </div>
-              
-              {/* Email and Gender Fields */}
-              <div className="form-same-row">
-                <input
-                  type="email"
-                  name="email"
-                  className="form-input"
-                  placeholder="Email"
-                  value={formDetails.email}
-                  onChange={handleInputChange}
-                  aria-label="Email address"
-                />
-                <select
-                  name="gender"
-                  value={formDetails.gender}
-                  className="form-input"
-                  id="gender"
-                  onChange={handleInputChange}
-                  aria-label="Gender"
-                >
-                  <option value="neither">Khác</option>
-                  <option value="male">Nam</option>
-                  <option value="female">Nữ</option>
-                </select>
+
+              {/* Profile Form */}
+              <div className="profile-form-container">
+                <form onSubmit={handleFormSubmit} className="profile-form">
+                  {/* Name Fields */}
+                  <div className="form-row">
+                    <div className="form-group">
+                      <label className="form-label">Tên</label>
+                      <input
+                        type="text"
+                        name="firstname"
+                        className="form-input"
+                        placeholder="Nhập tên của bạn"
+                        value={formDetails.firstname}
+                        onChange={handleInputChange}
+                        aria-label="First name"
+                      />
+                    </div>
+                    <div className="form-group">
+                      <label className="form-label">Họ</label>
+                      <input
+                        type="text"
+                        name="lastname"
+                        className="form-input"
+                        placeholder="Nhập họ của bạn"
+                        value={formDetails.lastname}
+                        onChange={handleInputChange}
+                        aria-label="Last name"
+                      />
+                    </div>
+                  </div>
+                  
+                  {/* Email and Gender Fields */}
+                  <div className="form-row">
+                    <div className="form-group">
+                      <label className="form-label">Email</label>
+                      <input
+                        type="email"
+                        name="email"
+                        className="form-input"
+                        placeholder="Nhập email của bạn"
+                        value={formDetails.email}
+                        onChange={handleInputChange}
+                        aria-label="Email address"
+                      />
+                    </div>
+                    <div className="form-group">
+                      <label className="form-label">Giới tính</label>
+                      <select
+                        name="gender"
+                        value={formDetails.gender}
+                        className="form-input"
+                        id="gender"
+                        onChange={handleInputChange}
+                        aria-label="Gender"
+                      >
+                        <option value="neither">Khác</option>
+                        <option value="male">Nam</option>
+                        <option value="female">Nữ</option>
+                      </select>
+                    </div>
+                  </div>
+                  
+                  {/* Age and Mobile Fields */}
+                  <div className="form-row">
+                    <div className="form-group">
+                      <label className="form-label">Tuổi</label>
+                      <input
+                        type="text"
+                        name="age"
+                        className="form-input"
+                        placeholder="Nhập tuổi của bạn"
+                        value={formDetails.age}
+                        onChange={handleInputChange}
+                        aria-label="Age"
+                      />
+                    </div>
+                    <div className="form-group">
+                      <label className="form-label">Số điện thoại</label>
+                      <input
+                        type="text"
+                        name="mobile"
+                        className="form-input"
+                        placeholder="Nhập số điện thoại"
+                        value={formDetails.mobile}
+                        onChange={handleInputChange}
+                        aria-label="Mobile number"
+                      />
+                    </div>
+                  </div>
+                  
+                  {/* Address Field */}
+                  <div className="form-group full-width">
+                    <label className="form-label">Địa chỉ</label>
+                    <textarea
+                      name="address"
+                      className="form-input"
+                      placeholder="Nhập địa chỉ của bạn"
+                      value={formDetails.address}
+                      onChange={handleInputChange}
+                      rows="3"
+                      aria-label="Address"
+                    ></textarea>
+                  </div>
+                  
+                  {/* Password Fields */}
+                  <div className="form-row">
+                    <div className="form-group">
+                      <label className="form-label">Mật khẩu mới</label>
+                      <input
+                        type="password"
+                        name="password"
+                        className="form-input"
+                        placeholder="Nhập mật khẩu mới"
+                        value={formDetails.password}
+                        onChange={handleInputChange}
+                        aria-label="Password"
+                      />
+                    </div>
+                    <div className="form-group">
+                      <label className="form-label">Xác nhận mật khẩu</label>
+                      <input
+                        type="password"
+                        name="confpassword"
+                        className="form-input"
+                        placeholder="Xác nhận mật khẩu"
+                        value={formDetails.confpassword}
+                        onChange={handleInputChange}
+                        aria-label="Confirm password"
+                      />
+                    </div>
+                  </div>
+                  
+                  {/* Submit Button */}
+                  <div className="form-actions">
+                    <button
+                      type="submit"
+                      className="update-btn"
+                      aria-label="Update profile"
+                    >
+                      Cập nhật thông tin
+                    </button>
+                  </div>
+                </form>
               </div>
-              
-              {/* Age and Mobile Fields */}
-              <div className="form-same-row">
-                <input
-                  type="text"
-                  name="age"
-                  className="form-input"
-                  placeholder="Tuổi"
-                  value={formDetails.age}
-                  onChange={handleInputChange}
-                  aria-label="Age"
-                />
-                <input
-                  type="text"
-                  name="mobile"
-                  className="form-input"
-                  placeholder="Số điện thoại"
-                  value={formDetails.mobile}
-                  onChange={handleInputChange}
-                  aria-label="Mobile number"
-                />
-              </div>
-              
-              {/* Address Field */}
-              <textarea
-                name="address"
-                className="form-input"
-                placeholder="Địa chỉ"
-                value={formDetails.address}
-                onChange={handleInputChange}
-                rows="2"
-                aria-label="Address"
-              ></textarea>
-              
-              {/* Password Fields */}
-              <div className="form-same-row">
-                <input
-                  type="password"
-                  name="password"
-                  className="form-input"
-                  placeholder="Mật khẩu"
-                  value={formDetails.password}
-                  onChange={handleInputChange}
-                  aria-label="Password"
-                />
-                <input
-                  type="password"
-                  name="confpassword"
-                  className="form-input"
-                  placeholder="Xác nhận mật khẩu"
-                  value={formDetails.confpassword}
-                  onChange={handleInputChange}
-                  aria-label="Confirm password"
-                />
-              </div>
-              
-              {/* Submit Button */}
-              <button
-                type="submit"
-                className="btn form-btn"
-                aria-label="Update profile"
-              >
-                Cập nhật thông tin
-              </button>
-            </form>
+            </div>
           </div>
-        </section>
+        </div>
       )}
       <Footer />
     </>

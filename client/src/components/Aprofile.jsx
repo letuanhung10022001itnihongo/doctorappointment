@@ -155,111 +155,159 @@ function Aprofile() {
    * @returns {JSX.Element} Profile form
    */
   const renderProfileForm = () => (
-    <form onSubmit={formSubmit} className="register-form">
-      <div className="form-same-row">
-        <input
-          type="text"
-          name="firstname"
+    <form onSubmit={formSubmit} className="register-form profile-form">
+      <div className="form-row">
+        <div className="form-group">
+          <label className="form-label">Tên</label>
+          <input
+            type="text"
+            name="firstname"
+            className="form-input"
+            placeholder="Nhập tên của bạn"
+            value={formDetails.firstname}
+            onChange={inputChange}
+            required
+          />
+        </div>
+        <div className="form-group">
+          <label className="form-label">Họ</label>
+          <input
+            type="text"
+            name="lastname"
+            className="form-input"
+            placeholder="Nhập họ của bạn"
+            value={formDetails.lastname}
+            onChange={inputChange}
+            required
+          />
+        </div>
+      </div>
+      
+      <div className="form-row">
+        <div className="form-group">
+          <label className="form-label">Email</label>
+          <input
+            type="email"
+            name="email"
+            className="form-input"
+            placeholder="Nhập email của bạn"
+            value={formDetails.email}
+            onChange={inputChange}
+            required
+          />
+        </div>
+        <div className="form-group">
+          <label className="form-label">Giới tính</label>
+          <select
+            name="gender"
+            value={formDetails.gender}
+            className="form-input"
+            id="gender"
+            onChange={inputChange}
+          >
+            <option value="neither">Không muốn nói</option>
+            <option value="male">Nam</option>
+            <option value="female">Nữ</option>
+          </select>
+        </div>
+      </div>
+      
+      <div className="form-row">
+        <div className="form-group">
+          <label className="form-label">Tuổi</label>
+          <input
+            type="number"
+            name="age"
+            className="form-input"
+            placeholder="Nhập tuổi của bạn"
+            value={formDetails.age}
+            onChange={inputChange}
+            min="1"
+            max="120"
+          />
+        </div>
+        <div className="form-group">
+          <label className="form-label">Số điện thoại</label>
+          <input
+            type="tel"
+            name="mobile"
+            className="form-input"
+            placeholder="Nhập số điện thoại của bạn"
+            value={formDetails.mobile}
+            onChange={inputChange}
+          />
+        </div>
+      </div>
+      
+      <div className="form-group full-width">
+        <label className="form-label">Địa chỉ</label>
+        <textarea
+          name="address"
           className="form-input"
-          placeholder="Tên"
-          value={formDetails.firstname}
+          placeholder="Nhập địa chỉ của bạn"
+          value={formDetails.address}
           onChange={inputChange}
-        />
-        <input
-          type="text"
-          name="lastname"
-          className="form-input"
-          placeholder="Họ"
-          value={formDetails.lastname}
-          onChange={inputChange}
+          rows="3"
         />
       </div>
-      <div className="form-same-row">
-        <input
-          type="email"
-          name="email"
-          className="form-input"
-          placeholder="Nhập email của bạn"
-          value={formDetails.email}
-          onChange={inputChange}
-        />
-        <select
-          name="gender"
-          value={formDetails.gender}
-          className="form-input"
-          id="gender"
-          onChange={inputChange}
-        >
-          <option value="neither">Không muốn nói</option>
-          <option value="male">Nam</option>
-          <option value="female">Nữ</option>
-        </select>
+      
+      <div className="form-row">
+        <div className="form-group">
+          <label className="form-label">Mật khẩu mới (tùy chọn)</label>
+          <input
+            type="password"
+            name="password"
+            className="form-input"
+            placeholder="Nhập mật khẩu mới"
+            value={formDetails.password}
+            onChange={inputChange}
+          />
+        </div>
+        <div className="form-group">
+          <label className="form-label">Xác nhận mật khẩu</label>
+          <input
+            type="password"
+            name="confpassword"
+            className="form-input"
+            placeholder="Xác nhận mật khẩu mới"
+            value={formDetails.confpassword}
+            onChange={inputChange}
+          />
+        </div>
       </div>
-      <div className="form-same-row">
-        <input
-          type="text"
-          name="age"
-          className="form-input"
-          placeholder="Nhập tuổi của bạn"
-          value={formDetails.age}
-          onChange={inputChange}
-        />
-        <input
-          type="text"
-          name="mobile"
-          className="form-input"
-          placeholder="Nhập số điện thoại của bạn"
-          value={formDetails.mobile}
-          onChange={inputChange}
-        />
+      
+      <div className="form-actions">
+        <button type="submit" className="btn form-btn update-btn">
+          <span>Cập nhật thông tin</span>
+        </button>
       </div>
-      <textarea
-        type="text"
-        name="address"
-        className="form-input"
-        placeholder="Địa chỉ"
-        value={formDetails.address}
-        onChange={inputChange}
-        rows="2"
-      ></textarea>
-      <div className="form-same-row">
-        <input
-          type="password"
-          name="password"
-          className="form-input"
-          placeholder="Mật khẩu"
-          value={formDetails.password}
-          onChange={inputChange}
-        />
-        <input
-          type="password"
-          name="confpassword"
-          className="form-input"
-          placeholder="Xác nhận mật khẩu"
-          value={formDetails.confpassword}
-          onChange={inputChange}
-        />
-      </div>
-      <button type="submit" className="btn form-btn">
-        Cập nhật
-      </button>
     </form>
   );
 
   return (
-    <>
+    <div className="profile-page">
       {loading ? (
         <Loading />
       ) : (
-        <section className="register-section flex-center">
-          <div className="profile-container flex-center">
-            <h2 className="form-heading">Thông tin cá nhân</h2>
-            <img src={file} alt="profile" className="profile-pic" />
-            {renderProfileForm()}
+        <div className="profile-container-wrapper">
+          <div className="profile-container">
+            <div className="profile-header">
+              <div className="profile-pic-container">
+                <img src={file} alt="profile" className="profile-pic" />
+                <div className="profile-info">
+                  <h2 className="profile-title">Thông tin cá nhân</h2>
+                  <p className="profile-subtitle">Cập nhật thông tin cá nhân của bạn</p>
+                </div>
+              </div>
+            </div>
+            
+            <div className="profile-form-container">
+              {renderProfileForm()}
+            </div>
           </div>
-        </section>
+        </div>
       )}
-    </>
+    </div>
   );
 }
 

@@ -1,4 +1,4 @@
-// Import required modules
+// Import các modules cần thiết
 const express = require("express");
 const cors = require("cors");
 const path = require("path");
@@ -10,11 +10,11 @@ require("dotenv").config();
 const sequelize = require("./db/conn");
 
 // Import models
-const UserModel = require('./models/userModel');
-const DoctorModel = require('./models/doctorModel');
-const AppointmentModel = require('./models/appointmentModel');
-const NotificationModel = require('./models/notificationModel');
-const GAuthModel = require('./models/gauth');
+const UserModel = require("./models/userModel");
+const DoctorModel = require("./models/doctorModel");
+const AppointmentModel = require("./models/appointmentModel");
+const NotificationModel = require("./models/notificationModel");
+const GAuthModel = require("./models/gauth");
 
 // Initialize models
 const User = UserModel(sequelize);
@@ -23,42 +23,42 @@ const Appointment = AppointmentModel(sequelize);
 const Notification = NotificationModel(sequelize);
 const GUser = GAuthModel(sequelize);
 
-// Set up associations
-User.hasOne(Doctor, { foreignKey: 'userId' });
-Doctor.belongsTo(User, { foreignKey: 'userId' });
+// Thiết lập associations
+User.hasOne(Doctor, { foreignKey: "userId" });
+Doctor.belongsTo(User, { foreignKey: "userId" });
 
-User.hasMany(Appointment, { foreignKey: 'userId', as: 'patientAppointments' });
-User.hasMany(Appointment, { foreignKey: 'doctorId', as: 'doctorAppointments' });
-Appointment.belongsTo(User, { foreignKey: 'userId', as: 'patient' });
-Appointment.belongsTo(User, { foreignKey: 'doctorId', as: 'doctor' });
+User.hasMany(Appointment, { foreignKey: "userId", as: "patientAppointments" });
+User.hasMany(Appointment, { foreignKey: "doctorId", as: "doctorAppointments" });
+Appointment.belongsTo(User, { foreignKey: "userId", as: "patient" });
+Appointment.belongsTo(User, { foreignKey: "doctorId", as: "doctor" });
 
-User.hasMany(Notification, { foreignKey: 'userId' });
-Notification.belongsTo(User, { foreignKey: 'userId' });
+User.hasMany(Notification, { foreignKey: "userId" });
+Notification.belongsTo(User, { foreignKey: "userId" });
 
-// Make models globally available
+// Làm cho models có sẵn globally
 global.db = {
   User,
   Doctor,
   Appointment,
   Notification,
-  GUser
+  GUser,
 };
 
 // Initialize Express application
 const app = express();
 
-// Create HTTP server
+// Tạo HTTP server
 const server = http.createServer(app);
 
-// Initialize Socket.io with CORS settings
+// Initialize Socket.io với CORS settings
 const io = new Server(server, {
   cors: {
-    origin: process.env.CLIENT_URL || 'http://localhost:3000',
-    methods: ['GET', 'POST']
-  }
+    origin: process.env.CLIENT_URL || "http://localhost:3000",
+    methods: ["GET", "POST"],
+  },
 });
 
-// Set port from environment variables or use default
+// Set port từ environment variables hoặc sử dụng default
 const port = process.env.PORT || 5015;
 
 // Middleware setup
@@ -81,10 +81,10 @@ app.use("/api/notification", notificationRouter);
 app.use("/api/specification", specificationRouter);
 app.use("/api/stats", statsRouter);
 
-// Serve static files from the React build
+// Serve static files từ React build
 app.use(express.static(path.join(__dirname, "./client/build")));
 
-// Handle all other routes by serving the React app
+// Handle tất cả routes khác bằng cách serve React app
 app.get("*", (req, res) => {
   res.sendFile(path.join(__dirname, "./client/build/index.html"));
 });
@@ -93,34 +93,34 @@ app.get("*", (req, res) => {
 const onlineUsers = new Map();
 
 // Socket.io connection handler
-io.on('connection', (socket) => {
-  console.log('A user connected:', socket.id);
+io.on("connection", (socket) => {
+  console.log("A user connected:", socket.id);
 
   // Handle user login
-  socket.on('login', async (userId) => {
+  socket.on("login", async (userId) => {
     try {
       // Store user connection
       onlineUsers.set(userId, socket.id);
       console.log(`User ${userId} logged in`);
-      
-      // Get unread notifications for the user
+
+      // Lấy unread notifications cho user
       const unreadNotifications = await Notification.findAll({
         where: {
           userId: userId,
-          isRead: false
+          isRead: false,
         },
-        order: [['createdAt', 'DESC']]
+        order: [["createdAt", "DESC"]],
       });
-      
-      // Send unread notifications to the user
-      socket.emit('notifications', unreadNotifications);
+
+      // Gửi unread notifications đến user
+      socket.emit("notifications", unreadNotifications);
     } catch (error) {
-      console.error('Socket login error:', error);
+      console.error("Socket login error:", error);
     }
   });
 
   // Handle notification marking as read
-  socket.on('markAsRead', async (notificationId) => {
+  socket.on("markAsRead", async (notificationId) => {
     try {
       await Notification.update(
         { isRead: true },
@@ -128,13 +128,13 @@ io.on('connection', (socket) => {
       );
       console.log(`Notification ${notificationId} marked as read`);
     } catch (error) {
-      console.error('Mark as read error:', error);
+      console.error("Mark as read error:", error);
     }
   });
 
   // Handle user disconnect
-  socket.on('disconnect', () => {
-    // Find and remove the disconnected user
+  socket.on("disconnect", () => {
+    // Tìm và remove disconnected user
     for (const [userId, socketId] of onlineUsers.entries()) {
       if (socketId === socket.id) {
         onlineUsers.delete(userId);
@@ -145,17 +145,18 @@ io.on('connection', (socket) => {
   });
 });
 
-// Make io available globally for other modules
+// Làm cho io có sẵn globally cho các modules khác
 global.io = io;
 global.onlineUsers = onlineUsers;
 
-// Sync database and start server
-sequelize.sync({ alter: true })
+// Sync database và start server
+sequelize
+  .sync({ alter: true })
   .then(() => {
     server.listen(port, () => {
       console.log(`Server is running on port ${port}`);
     });
   })
-  .catch(err => {
-    console.error('Unable to connect to the database:', err);
+  .catch((err) => {
+    console.error("Unable to connect to the database:", err);
   });

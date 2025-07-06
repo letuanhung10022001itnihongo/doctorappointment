@@ -11,7 +11,7 @@ import React from "react";
 const Empty = () => {
   return (
     <h2 className="nothing flex-center" aria-live="polite">
-      Nothing to show
+      Danh sách trống
     </h2>
   );
 };

@@ -1,7 +1,7 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import { NavLink, useNavigate } from "react-router-dom";
 import { HashLink } from "react-router-hash-link";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { setUserInfo } from "../redux/reducers/rootSlice";
 import { FiMenu } from "react-icons/fi";
 import { RxCross1 } from "react-icons/rx";
@@ -31,12 +31,11 @@ const Navbar = () => {
   // Authentication state
   const token = localStorage.getItem("token") || "";
   const user = token ? jwt_decode(token) : null;
-  const { userInfo } = useSelector((state) => state.root);
 
   /**
    * Fetches unread notification count from API
    */
-  const fetchUnreadCount = async () => {
+  const fetchUnreadCount = useCallback(async () => {
     if (!user) return;
 
     try {
@@ -48,12 +47,12 @@ const Navbar = () => {
       console.error("Error fetching unread count:", error);
       setUnreadCount(0);
     }
-  };
+  }, [user]);
 
   // Fetch unread count when component mounts or user changes
   useEffect(() => {
     fetchUnreadCount();
-  }, [user]);
+  }, [user, fetchUnreadCount]);
 
   // Set up interval to periodically update unread count
   useEffect(() => {
@@ -74,7 +73,7 @@ const Navbar = () => {
       clearInterval(interval);
       window.removeEventListener("notificationsRead", handleNotificationsRead);
     };
-  }, [user]);
+  }, [user, fetchUnreadCount]);
 
   /**
    * Handles user logout
@@ -177,6 +176,9 @@ const Navbar = () => {
         <>
           <li>
             <NavLink to="/doctors">Bác sĩ</NavLink>
+          </li>
+          <li>
+            <NavLink to="/appointments">Các cuộc hẹn</NavLink>
           </li>
           {commonLinks}
         </>

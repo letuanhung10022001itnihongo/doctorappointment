@@ -4,6 +4,7 @@ import axios from "axios";
 import toast from "react-hot-toast";
 import { IoMdClose } from "react-icons/io";
 import { FaClock } from "react-icons/fa";
+import jwt_decode from "jwt-decode";
 
 /**
  * BookAppointment - Modal component for booking doctor appointments
@@ -28,6 +29,71 @@ const BookAppointment = ({ setModalOpen, ele }) => {
   // Time dropdown state
   const [isTimeDropdownOpen, setIsTimeDropdownOpen] = useState(false);
   const timeDropdownRef = useRef(null);
+
+  // Get user information from JWT token and populate form
+  useEffect(() => {
+    const fetchUserData = async () => {
+      const token = localStorage.getItem("token");
+      if (token) {
+        try {
+          const decodedToken = jwt_decode(token);
+          console.log("Decoded token:", decodedToken); // Debug log to see what's in the token
+          
+          // Get user ID from token
+          const userId = decodedToken.userId || decodedToken.id;
+          
+          if (userId) {
+            // Try to fetch user data from API using the user ID
+            const response = await axios.get(`/user/getuser/${userId}`, {
+              headers: {
+                Authorization: `Bearer ${token}`,
+              },
+            });
+            
+            const userData = response.data;
+            console.log("User data from API:", userData); // Debug log
+            
+            // Set form details with user data
+            setFormDetails(prevDetails => ({
+              ...prevDetails,
+              age: userData.age || "",
+              email: userData.email || "",
+              gender: userData.gender || "",
+              number: userData.mobile || "",
+            }));
+          } else {
+            console.log("No user ID found in token");
+            // Fallback to token data if no user ID
+            setFormDetails(prevDetails => ({
+              ...prevDetails,
+              age: decodedToken.age || "",
+              email: decodedToken.email || "",
+              gender: decodedToken.gender || "",
+              number: decodedToken.mobile || "",
+            }));
+          }
+        } catch (error) {
+          console.error("Error fetching user data:", error);
+          // Fallback to token data if API fails
+          try {
+            const decodedToken = jwt_decode(token);
+            console.log("Fallback to token data:", decodedToken);
+            setFormDetails(prevDetails => ({
+              ...prevDetails,
+              age: decodedToken.age || "",
+              email: decodedToken.email || "",
+              gender: decodedToken.gender || "",
+              number: decodedToken.mobile || "",
+            }));
+          } catch (tokenError) {
+            console.error("Error decoding token:", tokenError);
+          }
+        }
+      }
+    };
+    
+    fetchUserData();
+  }, []);
 
   // Generate time slots (30-minute intervals from 8:00 to 18:00)
   const timeSlots = [
@@ -236,7 +302,7 @@ const BookAppointment = ({ setModalOpen, ele }) => {
           onClick={() => setIsTimeDropdownOpen(!isTimeDropdownOpen)}
         >
           <span className={formDetails.time ? "selected-time" : "placeholder-time"}>
-            {formDetails.time || "Select appointment time"}
+            {formDetails.time || "Chọn giờ hẹn"}
           </span>
           <FaClock className={`time-icon ${isTimeDropdownOpen ? "open" : ""}`} />
         </div>
@@ -261,7 +327,7 @@ const BookAppointment = ({ setModalOpen, ele }) => {
       <input
         type="number"
         name="age"
-        placeholder="Age"
+        placeholder="Tuổi"
         className="form-input"
         value={formDetails.age}
         onChange={inputChange}
@@ -273,7 +339,7 @@ const BookAppointment = ({ setModalOpen, ele }) => {
       <input
         type="email"
         name="email"
-        placeholder="Email (Optional)"
+        placeholder="Địa chỉ Email (Không bắt buộc)"
         className="form-input"
         value={formDetails.email}
         onChange={inputChange}
@@ -282,7 +348,7 @@ const BookAppointment = ({ setModalOpen, ele }) => {
       <input
         type="text"
         name="bloodGroup"
-        placeholder="Blood Group (Optional)"
+        placeholder="Nhóm máu (Không bắt buộc)"
         className="form-input"
         value={formDetails.bloodGroup}
         onChange={inputChange}

@@ -91,6 +91,8 @@ const AdminAppointments = () => {
     console.log("🔍 Rendering appointment:", appointment); // Debug log
     
     const isCompleted = appointment?.status === "Completed";
+    const isRejected = appointment?.status === "Rejected";
+    const isDisabled = isCompleted || isRejected;
     
     return (
       <tr key={appointment?.id}>
@@ -129,16 +131,16 @@ const AdminAppointments = () => {
         </td>
         <td>
           <button
-            className={`btn user-btn ${isCompleted ? "completed-btn" : "accept-btn"}`}
-            disabled={isCompleted}
-            onClick={() => !isCompleted && markAppointmentComplete(appointment)}
+            className={`btn user-btn ${isCompleted ? "completed-btn" : isRejected ? "rejected-btn" : "accept-btn"}`}
+            disabled={isDisabled}
+            onClick={() => !isDisabled && markAppointmentComplete(appointment)}
             style={{
-              backgroundColor: isCompleted ? "#6c757d" : "",
-              cursor: isCompleted ? "not-allowed" : "pointer",
-              opacity: isCompleted ? 0.7 : 1
+              backgroundColor: isDisabled ? "#6c757d" : "",
+              cursor: isDisabled ? "not-allowed" : "pointer",
+              opacity: isDisabled ? 0.7 : 1
             }}
           >
-            {isCompleted ? "Đã hoàn thành" : "Hoàn thành"}
+            {isCompleted ? "Đã hoàn thành" : isRejected ? "Đã từ chối" : "Hoàn thành"}
           </button>
         </td>
       </tr>

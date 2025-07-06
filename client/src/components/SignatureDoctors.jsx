@@ -344,6 +344,17 @@ const SignatureDoctors = () => {
     }
   };
 
+  /**
+ * Formats currency in Vietnamese Dong style (1.000.000 VNĐ)
+ * @param {number} amount - The amount to format
+ * @returns {string} - Formatted currency string
+ */
+  const formatVND = (amount) => {
+    if (!amount || isNaN(amount)) return "0 VNĐ";
+
+    return new Intl.NumberFormat('vi-VN').format(amount) + " VNĐ";
+  };
+
   return (
     <section style={sectionStyle}>
       <div style={containerStyle}>
@@ -488,7 +499,7 @@ const SignatureDoctors = () => {
                         lineHeight: "1.4",
                       }}
                     >
-                      <strong>Phí tư vấn: </strong>$ {fees || 0}
+                      <strong>Phí tư vấn: </strong> {formatVND(fees) || 0}
                     </p>
 
                     <p

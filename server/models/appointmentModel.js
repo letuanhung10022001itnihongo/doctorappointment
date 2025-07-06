@@ -85,10 +85,10 @@ module.exports = (sequelize) => {
       type: DataTypes.TEXT,
       allowNull: true
     },
-    // Appointment status (defaults to Pending)
+    // Appointment status (defaults to Waiting_for_confirmation)
     status: {
-      type: DataTypes.STRING(20),
-      defaultValue: 'Pending'
+      type: DataTypes.STRING(50),
+      defaultValue: 'Waiting_for_confirmation'
     }
     // Future implementation
     // prescription: {

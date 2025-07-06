@@ -36,6 +36,11 @@ function ChangePassword() {
   // State for user profile image
   const [profileImage, setProfileImage] = useState("");
   
+  // State for modal
+  const [showModal, setShowModal] = useState(false);
+  const [modalMessage, setModalMessage] = useState("");
+  const [modalType, setModalType] = useState("success"); // "success" or "error"
+  
   /**
    * Form state for password change
    * @property {string} password - Current password
@@ -144,9 +149,12 @@ function ChangePassword() {
         }
       );
       
-      // Handle successful password change
-      if (response.data === "Password changed successfully") {
-        toast.success("Password updated successfully");
+      // Handle successful password change based on status code
+      if (response.status === 200) {
+        // Show success modal
+        setModalType("success");
+        setModalMessage("Mật khẩu đã được cập nhật thành công!");
+        setShowModal(true);
         
         // Clear form fields after successful update
         setFormDetails({
@@ -158,16 +166,132 @@ function ChangePassword() {
     } catch (error) {
       console.error("Error updating password:", error);
       
-      // Display appropriate error message
+      // Show error modal
+      setModalType("error");
+      let errorMessage = "Có lỗi xảy ra. Vui lòng thử lại.";
+      
       if (error.response && error.response.data) {
-        toast.error(error.response.data);
-      } else {
-        toast.error("Network error. Please try again.");
+        errorMessage = error.response.data.message || error.response.data;
       }
+      
+      setModalMessage(errorMessage);
+      setShowModal(true);
     } finally {
       dispatch(setLoading(false));
     }
   };
+
+  /**
+   * Renders the result modal
+   */
+  const renderResultModal = () => (
+    <div
+      className="modal flex-center"
+      style={{
+        position: "fixed",
+        top: 0,
+        left: 0,
+        width: "100%",
+        height: "100%",
+        backgroundColor: "rgba(0,0,0,0.5)",
+        zIndex: 1000,
+        backdropFilter: "blur(8px)",
+      }}
+    >
+      <div
+        className="modal__content"
+        style={{
+          backgroundColor: "white",
+          padding: "2rem",
+          borderRadius: "20px",
+          width: "400px",
+          maxWidth: "90%",
+          textAlign: "center",
+          boxShadow: "0 25px 50px rgba(0, 0, 0, 0.25)",
+        }}
+      >
+        {/* Modal Icon */}
+        <div style={{ marginBottom: "1rem" }}>
+          {modalType === "success" ? (
+            <div
+              style={{
+                width: "60px",
+                height: "60px",
+                borderRadius: "50%",
+                backgroundColor: "#28a745",
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+                margin: "0 auto",
+                fontSize: "24px",
+                color: "white",
+              }}
+            >
+              ✓
+            </div>
+          ) : (
+            <div
+              style={{
+                width: "60px",
+                height: "60px",
+                borderRadius: "50%",
+                backgroundColor: "#dc3545",
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+                margin: "0 auto",
+                fontSize: "24px",
+                color: "white",
+              }}
+            >
+              ✕
+            </div>
+          )}
+        </div>
+
+        {/* Modal Title */}
+        <h2
+          style={{
+            color: modalType === "success" ? "#28a745" : "#dc3545",
+            marginBottom: "1rem",
+            fontSize: "1.5rem",
+          }}
+        >
+          {modalType === "success" ? "Thành công!" : "Lỗi!"}
+        </h2>
+
+        {/* Modal Message */}
+        <p
+          style={{
+            color: "#666",
+            marginBottom: "2rem",
+            fontSize: "1rem",
+            lineHeight: "1.5",
+          }}
+        >
+          {modalMessage}
+        </p>
+
+        {/* Modal Button */}
+        <button
+          onClick={() => setShowModal(false)}
+          className="btn"
+          style={{
+            backgroundColor: modalType === "success" ? "#28a745" : "#dc3545",
+            color: "white",
+            padding: "0.75rem 2rem",
+            borderRadius: "25px",
+            border: "none",
+            cursor: "pointer",
+            fontSize: "1rem",
+            fontWeight: "600",
+          }}
+        >
+          Đóng
+        </button>
+      </div>
+    </div>
+  );
 
   return (
     <>
@@ -175,77 +299,104 @@ function ChangePassword() {
       {loading ? (
         <Loading />
       ) : (
-        <section className="register-section flex-center" aria-labelledby="change-password-heading">
-          <div className="profile-container flex-center">
-            <h2 id="change-password-heading" className="form-heading">Đổi mật khẩu</h2>
-            
-            {/* User profile picture */}
-            {profileImage && (
-              <img 
-                src={profileImage} 
-                alt="Profile" 
-                className="profile-pic" 
-              />
-            )}
-            
-            {/* Password change form */}
-            <form onSubmit={handleSubmit} className="register-form">
-              {/* Current password field */}
-              <div className="form-group">
-                <label htmlFor="current-password" className="visually-hidden">Mật khẩu hiện tại</label>
+        <section className="register-section flex-center">
+          <div className="register-container">
+            {/* Card-like container */}
+            <div className="profile-container" style={{
+              background: 'white',
+              borderRadius: '16px',
+              boxShadow: '0 8px 32px rgba(0, 0, 0, 0.08)',
+              padding: '2rem',
+              width: '100%',
+              maxWidth: '500px',
+              textAlign: 'center'
+            }}>
+              {/* Centered title */}
+              <h2 className="form-heading" style={{ 
+                marginBottom: '1.5rem',
+                color: 'var(--bold-text-color)',
+                textAlign: 'center'
+              }}>
+                Đổi mật khẩu
+              </h2>
+              
+              {/* User profile picture centered */}
+              {profileImage && (
+                <div style={{ 
+                  display: 'flex', 
+                  justifyContent: 'center', 
+                  marginBottom: '2rem' 
+                }}>
+                  <img 
+                    src={profileImage} 
+                    alt="Profile" 
+                    className="profile-pic"
+                    style={{
+                      width: '100px',
+                      height: '100px',
+                      borderRadius: '50%',
+                      objectFit: 'cover',
+                      border: '4px solid var(--light-blue)',
+                      boxShadow: '0 4px 12px rgba(0, 0, 0, 0.15)'
+                    }}
+                  />
+                </div>
+              )}
+              
+              {/* Password change form */}
+              <form onSubmit={handleSubmit} className="register-form">
+                {/* Current password field */}
                 <input
                   type="password"
-                  id="current-password"
                   name="password"
                   className="form-input"
                   placeholder="Nhập mật khẩu hiện tại"
                   value={formDetails.password}
                   onChange={handleInputChange}
-                  required
+                  aria-label="Current password"
+                  style={{ textAlign: 'left' }}
                 />
-              </div>
-              
-              {/* New password fields */}
-              <div className="form-same-row">
-                <div className="form-group">
-                  <label htmlFor="new-password" className="visually-hidden">Mật khẩu mới</label>
+                
+                {/* New password fields */}
+                <div className="form-same-row">
                   <input
                     type="password"
-                    id="new-password"
                     name="newpassword"
                     className="form-input"
                     placeholder="Nhập mật khẩu mới"
                     value={formDetails.newpassword}
                     onChange={handleInputChange}
                     minLength="6"
-                    required
+                    aria-label="New password"
+                    style={{ textAlign: 'left' }}
                   />
-                </div>
-                
-                <div className="form-group">
-                  <label htmlFor="confirm-password" className="visually-hidden">Xác nhận mật khẩu</label>
+                  
                   <input
                     type="password"
-                    id="confirm-password"
                     name="confnewpassword"
                     className="form-input"
                     placeholder="Xác nhận mật khẩu mới"
                     value={formDetails.confnewpassword}
                     onChange={handleInputChange}
                     minLength="6"
-                    required
+                    aria-label="Confirm new password"
+                    style={{ textAlign: 'left' }}
                   />
                 </div>
-              </div>
-              
-              {/* Submit button */}
-              <button type="submit" className="btn form-btn">
-                Cập nhật mật khẩu
-              </button>
-            </form>
+                
+                {/* Submit button */}
+                <button type="submit" className="btn form-btn">
+                  Cập nhật mật khẩu
+                </button>
+              </form>
+            </div>
           </div>
         </section>
       )}
+      
+      {/* Result Modal */}
+      {showModal && renderResultModal()}
+      
       <Footer />
     </>
   );

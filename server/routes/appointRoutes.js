@@ -18,4 +18,8 @@ appointRouter.post(
 
 appointRouter.put("/completed", auth, appointmentController.completed);
 
+appointRouter.put("/confirmappointment", auth, appointmentController.confirmappointment);
+
+appointRouter.put("/rejected", auth, appointmentController.rejectAppointment);
+
 module.exports = appointRouter;

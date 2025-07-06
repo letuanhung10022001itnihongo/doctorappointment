@@ -301,7 +301,7 @@ const ApplyDoctor = () => {
                 id="fees"
                 name="fees"
                 className="form-input"
-                placeholder="Your consultation fee in USD"
+                placeholder="Phí khám bệnh (VNĐ)"
                 min="0"
                 step="0.01"
                 value={formDetails.fees}

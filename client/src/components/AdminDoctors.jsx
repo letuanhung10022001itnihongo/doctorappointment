@@ -32,7 +32,7 @@ const AdminDoctors = () => {
   const fetchAllDoctors = async () => {
     try {
       dispatch(setLoading(true));
-      
+
       // Build URL with filter and search parameters
       let url = "/doctor/getalldoctors";
       if (filter !== "all") {
@@ -41,7 +41,7 @@ const AdminDoctors = () => {
       if (searchTerm.trim() !== "") {
         url += `${filter !== "all" ? "&" : "?"}search=${searchTerm}`;
       }
-      
+
       const doctorsData = await fetchData(url);
       setDoctors(doctorsData);
     } catch (error) {
@@ -60,7 +60,7 @@ const AdminDoctors = () => {
     try {
       const confirmed = window.confirm("Bạn có chắc chắn muốn xóa bác sĩ này?");
       if (!confirmed) return;
-      
+
       // Show toast notification with promise for better UX
       await toast.promise(
         axios.put(
@@ -78,7 +78,7 @@ const AdminDoctors = () => {
           loading: "Đang xóa bác sĩ...",
         }
       );
-      
+
       // Refresh doctors list after deletion
       fetchAllDoctors();
     } catch (error) {
@@ -116,6 +116,17 @@ const AdminDoctors = () => {
   const filteredDoctors = getFilteredDoctors();
 
   /**
+ * Formats currency in Vietnamese Dong style (1.000.000 VNĐ)
+ * @param {number} amount - The amount to format
+ * @returns {string} - Formatted currency string
+ */
+  const formatCurrency = (amount) => {
+    if (!amount || isNaN(amount)) return "0 VNĐ";
+
+    return new Intl.NumberFormat('vi-VN').format(amount) + " VNĐ";
+  };
+
+  /**
    * Renders a table row for each doctor
    * @param {Object} doctor - The doctor data
    * @param {number} index - The index of the doctor in the array
@@ -124,7 +135,7 @@ const AdminDoctors = () => {
   const renderDoctorRow = (doctor, index) => {
     // Create a unique key using doctor.id, doctor.userId, or fallback to index
     const uniqueKey = doctor?.id || doctor?.userId || `doctor-${index}`;
-    
+
     return (
       <tr key={uniqueKey}>
         <td>{index + 1}</td>
@@ -144,7 +155,7 @@ const AdminDoctors = () => {
         <td>{doctor?.user?.mobile || "N/A"}</td>
         <td>{doctor?.experience || "N/A"}</td>
         <td>{doctor?.specialization || "N/A"}</td>
-        <td>${doctor?.fees || "0"}</td>
+        <td>{formatCurrency(doctor?.fees)}</td>
         <td className="select">
           <button
             className="btn user-btn"
